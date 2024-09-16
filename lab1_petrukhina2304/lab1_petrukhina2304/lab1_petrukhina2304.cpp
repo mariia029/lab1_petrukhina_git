@@ -41,9 +41,9 @@ struct Pipe {
 // Структура для описания компрессорной станции
 struct KS {
     string name;
-    int numShops;
-    int workingShops;
-    double efficiency;
+    int numShops; // обшее кол-во цехов
+    int workingShops; // кол-во рабочих цехов
+    double efficiency; // эффективность КС
 
     // Чтение данных о КС с консоли
     void input() {
@@ -195,30 +195,31 @@ int main() {
             }
             break;
         case 4: {
-            cout << "Enter the index of the pipe to edit: ";
+            cout << "Enter the index of the pipe to edit (starting from 1): ";
             size_t index;
             cin >> index;
-            if (index < pipes.size()) {
-                pipes[index].toggleRepair();
+            if (index > 0 && index <= pipes.size()) {
+                pipes[index - 1].toggleRepair();
             }
             else {
                 cout << "Invalid index!" << endl;
             }
             break;
         }
+
         case 5: {
-            cout << "Enter the index of the KS to edit: ";
+            cout << "Enter the index of the KS to edit (starting from 1): ";
             size_t index;
             cin >> index;
-            if (index < stations.size()) {
+            if (index > 0 && index <= stations.size()) {
                 cout << "1. Start shop\n2. Stop shop\n";
                 int subChoice;
                 cin >> subChoice;
                 if (subChoice == 1) {
-                    stations[index].startShop();
+                    stations[index - 1].startShop();
                 }
                 else if (subChoice == 2) {
-                    stations[index].stopShop();
+                    stations[index - 1].stopShop();
                 }
                 else {
                     cout << "Invalid choice!" << endl;
@@ -229,6 +230,7 @@ int main() {
             }
             break;
         }
+
         case 6:
             saveData(pipes, stations, filename);
             break;
