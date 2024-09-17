@@ -1,7 +1,7 @@
-﻿#include <iostream>
-#include <string>
-#include <vector>
-#include <fstream>
+﻿#include <iostream> //для вводы и вывода
+#include <string> //для работ со строками
+#include <vector> //для работы с динам массивами
+#include <fstream> //для файлов
 
 using namespace std;
 
@@ -38,14 +38,14 @@ struct Pipe {
     }
 };
 
-// Структура для описания компрессорной станции
+// структура для описания компрессорной станции
 struct KS {
     string name;
     int numShops; // обшее кол-во цехов
     int workingShops; // кол-во рабочих цехов
     double efficiency; // эффективность КС
 
-    // Чтение данных о КС с консоли
+    // чтение данных о КС с консоли
     void input() {
         cout << "Enter KS name: ";
         cin >> name;
@@ -92,17 +92,17 @@ struct KS {
     }
 };
 
-// Функции для работы с файлами
+// функции для работы с файлами
 void saveData(const vector<Pipe>& pipes, const vector<KS>& stations, const string& filename) {
     ofstream file(filename);
     if (file.is_open()) {
-        // Сохраняем трубы
+        // сохраняем трубы
         file << pipes.size() << endl;
         for (const Pipe& pipe : pipes) {
             file << pipe.name << " " << pipe.length << " " << pipe.diameter << " " << pipe.inRepair << endl;
         }
 
-        // Сохраняем КС
+        // сохраняем КС
         file << stations.size() << endl;
         for (const KS& station : stations) {
             file << station.name << " " << station.numShops << " " << station.workingShops << " " << station.efficiency << endl;
@@ -122,7 +122,7 @@ void loadData(vector<Pipe>& pipes, vector<KS>& stations, const string& filename)
         pipes.clear();
         stations.clear();
 
-        // Чтение труб
+        // чтение труб
         size_t pipeCount;
         file >> pipeCount;
         for (size_t i = 0; i < pipeCount; i++) {
@@ -131,7 +131,7 @@ void loadData(vector<Pipe>& pipes, vector<KS>& stations, const string& filename)
             pipes.push_back(p);
         }
 
-        // Чтение КС
+        // чтение КС
         size_t ksCount;
         file >> ksCount;
         for (size_t i = 0; i < ksCount; i++) {
