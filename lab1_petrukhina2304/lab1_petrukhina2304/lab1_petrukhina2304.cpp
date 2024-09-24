@@ -1,249 +1,336 @@
-﻿#include <iostream> //для вводы и вывода
-#include <string> //для работ со строками
-#include <vector> //для работы с динам массивами
-#include <fstream> //для файлов
+﻿#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
 
 using namespace std;
 
-// Структура для описания трубы
-struct Pipe {
-    string name;
-    double length;
-    double diameter;
-    bool inRepair;
-
-    // Чтение данных о трубе с консоли
-    void input() {
-        cout << "Enter pipe name: ";
-        cin >> name;
-        cout << "Enter pipe length: ";
-        cin >> length;
-        cout << "Enter pipe diameter: ";
-        cin >> diameter;
-        inRepair = false;  // По умолчанию труба не в ремонте
-    }
-
-    // Вывод данных о трубе на консоль
-    void output() const {
-        cout << "Pipe name: " << name << endl;
-        cout << "Pipe length: " << length << endl;
-        cout << "Pipe diameter: " << diameter << endl;
-        cout << "Repair status: " << (inRepair ? "In repair" : "Not in repair") << endl;
-    }
-
-    // Редактирование состояния ремонта
-    void toggleRepair() {
-        inRepair = !inRepair;
-        cout << "Repair status changed to: " << (inRepair ? "In repair" : "Not in repair") << endl;
-    }
+struct Pipe
+{
+	string pipe_name = "None";
+	double pipe_length = 0.0;
+	int pipe_diameter = 0;
+	bool pipe_repair = false;
 };
 
-// структура для описания компрессорной станции
-struct KS {
-    string name;
-    int numShops; // обшее кол-во цехов
-    int workingShops; // кол-во рабочих цехов
-    double efficiency; // эффективность КС
-
-    // чтение данных о КС с консоли
-    void input() {
-        cout << "Enter KS name: ";
-        cin >> name;
-        cout << "Enter number of shops: ";
-        cin >> numShops;
-        cout << "Enter number of working shops: ";
-        cin >> workingShops;
-        while (workingShops > numShops || workingShops < 0) {
-            cout << "Number of working shops cannot exceed total or be negative. Try again: ";
-            cin >> workingShops;
-        }
-        cout << "Enter KS efficiency: ";
-        cin >> efficiency;
-    }
-
-    // Вывод данных о КС на консоль
-    void output() const {
-        cout << "KS name: " << name << endl;
-        cout << "Total shops: " << numShops << endl;
-        cout << "Working shops: " << workingShops << endl;
-        cout << "Efficiency: " << efficiency << endl;
-    }
-
-    // Запуск цеха
-    void startShop() {
-        if (workingShops < numShops) {
-            workingShops++;
-            cout << "Shop started. Now working shops: " << workingShops << endl;
-        }
-        else {
-            cout << "All shops are already working." << endl;
-        }
-    }
-
-    // Остановка цеха
-    void stopShop() {
-        if (workingShops > 0) {
-            workingShops--;
-            cout << "Shop stopped. Now working shops: " << workingShops << endl;
-        }
-        else {
-            cout << "No working shops." << endl;
-        }
-    }
+struct Station
+{
+	string station_name = "None";
+	int station_workshops = 0;
+	int station_act_workshops = 0;
+	double station_efficiency = 0.0;
 };
 
-// функции для работы с файлами
-void saveData(const vector<Pipe>& pipes, const vector<KS>& stations, const string& filename) {
-    ofstream file(filename);
-    if (file.is_open()) {
-        // сохраняем трубы
-        file << pipes.size() << endl;
-        for (const Pipe& pipe : pipes) {
-            file << pipe.name << " " << pipe.length << " " << pipe.diameter << " " << pipe.inRepair << endl;
-        }
-
-        // сохраняем КС
-        file << stations.size() << endl;
-        for (const KS& station : stations) {
-            file << station.name << " " << station.numShops << " " << station.workingShops << " " << station.efficiency << endl;
-        }
-
-        file.close();
-        cout << "Data saved to file " << filename << endl;
-    }
-    else {
-        cout << "Error opening file!" << endl;
-    }
+int check_int(int& int_data)
+{
+	cin >> int_data;
+	while (cin.fail() || cin.peek() != '\n' || int_data <= 0) 
+	{
+		cin.clear();
+		cin.ignore(100000, '\n');
+		cout << "\nPlease, enter an integer data type greater than 0\n";
+		cin >> int_data;
+	}
+	return int_data;
 }
 
-void loadData(vector<Pipe>& pipes, vector<KS>& stations, const string& filename) {
-    ifstream file(filename);
-    if (file.is_open()) {
-        pipes.clear();
-        stations.clear();
-
-        // чтение труб
-        size_t pipeCount;
-        file >> pipeCount;
-        for (size_t i = 0; i < pipeCount; i++) {
-            Pipe p;
-            file >> p.name >> p.length >> p.diameter >> p.inRepair;
-            pipes.push_back(p);
-        }
-
-        // чтение КС
-        size_t ksCount;
-        file >> ksCount;
-        for (size_t i = 0; i < ksCount; i++) {
-            KS ks;
-            file >> ks.name >> ks.numShops >> ks.workingShops >> ks.efficiency;
-            stations.push_back(ks);
-        }
-
-        file.close();
-        cout << "Data loaded from file " << filename << endl;
-    }
-    else {
-        cout << "Error opening file!" << endl;
-    }
+int check_input(int& input_data)
+{
+	cin >> input_data;
+	while (cin.fail() || cin.peek() != '\n' || input_data < 0 || input_data > 7) 
+	{
+		cin.clear();
+		cin.ignore(10000, '\n');
+		cout << "\nError of data input! Please, try again: ";
+		cin >> input_data;
+	}
+	return input_data;
 }
 
-// Основное меню программы
-void showMenu() {
-    cout << "1. Add pipe\n";
-    cout << "2. Add KS\n";
-    cout << "3. View all objects\n";
-    cout << "4. Edit pipe\n";
-    cout << "5. Edit KS\n";
-    cout << "6. Save data\n";
-    cout << "7. Load data\n";
-    cout << "0. Exit\n";
+double check_double(double& double_data)
+{
+	cin >> double_data;
+	while (cin.fail() || cin.peek() != '\n' || double_data <= 0) 
+	{
+		cin.clear();
+		cin.ignore(100000, '\n');
+		cout << "\nPlease, enter a double data type greater than 0\n";
+		cin >> double_data;
+	}
+	return double_data;
 }
 
-int main() {
-    vector<Pipe> pipes;
-    vector<KS> stations;
-    string filename = "lab1_file.txt";
-    int choice;
+double check2_double(double& efficiency_data)
+{
+	cin >> efficiency_data;
+	while (cin.fail() || cin.peek() != '\n' || (efficiency_data < 0.0) || (efficiency_data > 1.0)) 
+	{
+		cin.clear();
+		cin.ignore(100000, '\n');
+		cout << "\nPlease, enter a efficiency data from 0.0 to 1.0\n";
+		cin >> efficiency_data;
+	}
+	return efficiency_data;
+}
 
-    do {
-        showMenu();
-        cout << "Choose an action: ";
-        cin >> choice;
+bool check_bool(bool& bool_data)
+{
+	cin >> bool_data;
+	while (cin.fail() || cin.peek() != '\n')
+	{
+		cin.clear();
+		cin.ignore(100000, '\n');
+		cout << "\nPlease, enter a boolean data type\n";
+		cin >> bool_data;
+	}
+	return bool_data;
+}
 
-        switch (choice) {
-        case 1: {
-            Pipe p;
-            p.input();
-            pipes.push_back(p);
-            break;
-        }
-        case 2: {
-            KS ks;
-            ks.input();
-            stations.push_back(ks);
-            break;
-        }
-        case 3:
-            cout << "Pipes:\n";
-            for (const Pipe& p : pipes) {
-                p.output();
-            }
-            cout << "Compressor stations:\n";
-            for (const KS& ks : stations) {
-                ks.output();
-            }
-            break;
-        case 4: {
-            cout << "Enter the index of the pipe to edit (starting from 1): ";
-            size_t index;
-            cin >> index;
-            if (index > 0 && index <= pipes.size()) {
-                pipes[index - 1].toggleRepair();
-            }
-            else {
-                cout << "Invalid index!" << endl;
-            }
-            break;
-        }
 
-        case 5: {
-            cout << "Enter the index of the KS to edit (starting from 1): ";
-            size_t index;
-            cin >> index;
-            if (index > 0 && index <= stations.size()) {
-                cout << "1. Start shop\n2. Stop shop\n";
-                int subChoice;
-                cin >> subChoice;
-                if (subChoice == 1) {
-                    stations[index - 1].startShop();
-                }
-                else if (subChoice == 2) {
-                    stations[index - 1].stopShop();
-                }
-                else {
-                    cout << "Invalid choice!" << endl;
-                }
-            }
-            else {
-                cout << "Invalid index!" << endl;
-            }
-            break;
-        }
+Pipe AddPipe()
+{
+	Pipe new_pipe;
+	cout << endl << "Adding a new pipe..." << endl;
+	cout << "Enter the name of the pipe: ";
+	cin.ignore();
+	getline(cin, new_pipe.pipe_name);
+	cout << "Enter the length of the pipe (in metres): ";
+	check_double(new_pipe.pipe_length);
+	cout << "Enter the pipe diameter (in millimetres): ";
+	check_int(new_pipe.pipe_diameter);
+	cout << "Enter the repair status: ";
+	check_bool(new_pipe.pipe_repair);
+	return new_pipe;
+}
 
-        case 6:
-            saveData(pipes, stations, filename);
-            break;
-        case 7:
-            loadData(pipes, stations, filename);
-            break;
-        case 0:
-            cout << "Exiting the program.\n";
-            break;
-        default:
-            cout << "Invalid choice, try again.\n";
-        }
-    } while (choice != 0);
+void PrintAddPipe(Pipe& new_pipe)
+{
+	cout << endl << "Info about your pipe..." << endl;
+	if (new_pipe.pipe_name == "None")
+	{
+		cout << "No pipes available!\n";
+	}
+	else
+	{
+		cout << "Name: " << new_pipe.pipe_name << "\tLength: " << new_pipe.pipe_length
+			<< "\tDiameter: " << new_pipe.pipe_diameter << "\tRepair: " << new_pipe.pipe_repair << endl;
+	}
+}
 
-    return 0;
+void RepairPipe(Pipe& new_pipe)
+{
+	if (new_pipe.pipe_name == "None")
+	{
+		cout << "No pipes available!\n";
+	}
+	else
+	{
+		new_pipe.pipe_repair = !new_pipe.pipe_repair;
+		cout << endl << "You have changed repair status!";
+		PrintAddPipe(new_pipe);
+	}
+}
+
+Station AddStation()
+{
+	Station new_station;
+	cout << endl << "Adding a new CS..." << endl;
+	cout << "Enter the station name: ";
+	cin.ignore();
+	getline(cin, new_station.station_name);
+	cout << "Enter the number of workshops: ";
+	check_int(new_station.station_workshops);
+	cout << "Enter the number of active workshops: ";
+	check_int(new_station.station_act_workshops);
+	while (new_station.station_act_workshops > new_station.station_workshops)
+	{
+		cout << "The number of active workshops cannot be greater than those available!\n";
+		cout << "Enter the number of active workshops: ";
+		check_int(new_station.station_act_workshops);
+	}
+	cout << "Enter the station efficiency indicator (from 0 to 1 with tenths): ";
+	check2_double(new_station.station_efficiency);
+	return new_station;
+}
+
+void PrintAddStation(Station& new_station)
+{
+	cout << endl << "Info about your CS..." << endl;
+	if (new_station.station_name == "None")
+	{
+		cout << "No stations available!\n";
+	}
+	else
+	{
+		cout << "Name: " << new_station.station_name << "\tWorkshops: " << new_station.station_workshops
+			<< "\tActive workshops: " << new_station.station_act_workshops << "\tEfficiency: "
+			<< new_station.station_efficiency << endl;
+	}
+}
+
+void EditStation(Station& new_station)
+{
+	if (new_station.station_name == "None")
+	{
+		cout << "No stations available!\n";
+	}
+	else
+	{
+		cout << "Enter the number of active workshops: ";
+		check_int(new_station.station_act_workshops);
+		while (new_station.station_act_workshops > new_station.station_workshops)
+		{
+			cout << "The number of active workshops cannot be greater than those available!\n";
+			cout << "Enter the number of active workshops: ";
+			check_int(new_station.station_act_workshops);
+		}
+	}
+	PrintAddStation(new_station);
+}
+
+void FileRecord(Pipe& pipe_data, Station& station_data)
+{
+	ofstream fout("info.txt");
+	if (pipe_data.pipe_name == "None")
+	{
+		cout << "Nothing to record about pipe!\n";
+	}
+	else
+	{
+		cout << "Info about the pipe is written to a file!\n";
+		if (fout)
+		{
+			fout << "Info about your pipe...\n";
+			fout << pipe_data.pipe_name << endl;
+			fout << pipe_data.pipe_length << endl;
+			fout << pipe_data.pipe_diameter << endl;
+			fout << pipe_data.pipe_repair << endl;
+		}
+	}
+	if (station_data.station_name == "None")
+	{
+		cout << "Nothing to record about station!\n";
+	}
+	else
+	{
+		cout << "Info about the station is written to a file!\n";
+		if (fout)
+		{
+			fout << "Info about your station...\n";
+			fout << station_data.station_name << endl;
+			fout << station_data.station_workshops << endl;
+			fout << station_data.station_act_workshops << endl;
+			fout << station_data.station_efficiency << endl;
+		}
+	}
+	fout.close();
+}
+
+void FileOutput(Pipe& pipe_data, Station& station_data)
+{
+	ifstream fin("info.txt");
+	if (fin)
+	{
+		vector <string> lines;
+		string line;
+
+		while (getline(fin, line))
+		{
+			lines.push_back(line);
+		}
+
+		int totalLines = lines.size();
+		if (totalLines > 0)
+		{
+			cout << "\nThe last five lines from the file are:" << endl;
+			for (int i = max(0, totalLines - 5); i < totalLines; ++i)
+			{
+				cout << lines[i] << endl;
+			}
+		}
+		else
+		{
+			cout << "\nThe file is empty!" << endl;
+		}
+
+		fin.close();
+	}
+	else
+	{
+		cout << "\nError opening the file!" << endl;
+	}
+}
+
+
+int main()
+{
+	Pipe pipe0;
+	Station station0;
+	int num = 0;
+	while (true) {
+		cout << endl << "Menu:" << endl;
+		cout << "1) Add pipe" << endl;
+		cout << "2) Add a CS" << endl;
+		cout << "3) View all objects" << endl;
+		cout << "4) Edit pipe" << endl;
+		cout << "5) Edit a CS" << endl;
+		cout << "6) Save" << endl;
+		cout << "7) Download" << endl;
+		cout << "0) Exit" << endl;
+		cout << endl << "Please, enter the command number: ";
+		check_input(num);
+	
+		switch (num)
+		{
+		case 1:
+		{
+			pipe0 = AddPipe();
+			PrintAddPipe(pipe0);
+			break;
+		}
+		case 2:
+		{
+			station0 = AddStation();
+			PrintAddStation(station0);
+			break;
+		}
+		case 3:
+		{
+			PrintAddPipe(pipe0);
+			PrintAddStation(station0);
+			break;
+		}
+		case 4:
+		{
+			RepairPipe(pipe0);
+			break;
+		}
+		case 5:
+		{
+			EditStation(station0);
+			break;
+		}
+		case 6:
+		{
+			FileRecord(pipe0, station0);
+			break;
+		}
+		case 7:
+		{
+			FileOutput(pipe0, station0);
+			break;
+		}
+		case 0:
+		{
+			return false;
+			break;
+		}
+		default:
+		{
+			cout << endl << "There is no such command, please, try again" << endl;
+			break;
+		}
+		}
+	}
+	return 0;
 }
