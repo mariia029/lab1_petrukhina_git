@@ -21,10 +21,11 @@ struct Station
 	double station_efficiency = 0.0;
 };
 
-int check_int(int& int_data)
+int check_int()
 {
+	int int_data;
 	cin >> int_data;
-	while (cin.fail() || cin.peek() != '\n' || int_data <= 0) 
+	while (cin.fail() || cin.peek() != '\n' || int_data <= 0)
 	{
 		cin.clear();
 		cin.ignore(100000, '\n');
@@ -34,10 +35,11 @@ int check_int(int& int_data)
 	return int_data;
 }
 
-int check_input(int& input_data)
+int check_input()
 {
+	int input_data;
 	cin >> input_data;
-	while (cin.fail() || cin.peek() != '\n' || input_data < 0 || input_data > 7) 
+	while (cin.fail() || cin.peek() != '\n' || input_data < 0 || input_data > 9)
 	{
 		cin.clear();
 		cin.ignore(10000, '\n');
@@ -47,10 +49,12 @@ int check_input(int& input_data)
 	return input_data;
 }
 
-double check_double(double& double_data)
+
+double check_double()
 {
+	double double_data;
 	cin >> double_data;
-	while (cin.fail() || cin.peek() != '\n' || double_data <= 0) 
+	while (cin.fail() || cin.peek() != '\n' || double_data <= 0)
 	{
 		cin.clear();
 		cin.ignore(100000, '\n');
@@ -60,21 +64,25 @@ double check_double(double& double_data)
 	return double_data;
 }
 
-double check2_double(double& efficiency_data)
+
+double check2_double()
 {
+	double efficiency_data;
 	cin >> efficiency_data;
-	while (cin.fail() || cin.peek() != '\n' || (efficiency_data < 0.0) || (efficiency_data > 1.0)) 
+	while (cin.fail() || cin.peek() != '\n' || (efficiency_data < 0.0) || (efficiency_data > 1.0))
 	{
 		cin.clear();
 		cin.ignore(100000, '\n');
-		cout << "\nPlease, enter a efficiency data from 0.0 to 1.0\n";
+		cout << "\nPlease, enter efficiency data from 0.0 to 1.0\n";
 		cin >> efficiency_data;
 	}
 	return efficiency_data;
 }
 
-bool check_bool(bool& bool_data)
+
+bool check_bool()
 {
+	bool bool_data;
 	cin >> bool_data;
 	while (cin.fail() || cin.peek() != '\n')
 	{
@@ -95,15 +103,16 @@ Pipe AddPipe()
 	cin.ignore();
 	getline(cin, new_pipe.pipe_name);
 	cout << "Enter the length of the pipe (in metres): ";
-	check_double(new_pipe.pipe_length);
+	new_pipe.pipe_length = check_double();
 	cout << "Enter the pipe diameter (in millimetres): ";
-	check_int(new_pipe.pipe_diameter);
-	cout << "Enter the repair status: ";
-	check_bool(new_pipe.pipe_repair);
+	new_pipe.pipe_diameter = check_int();
+	cout << "Enter the repair status (0 or 1): ";
+	new_pipe.pipe_repair = check_bool();
 	return new_pipe;
 }
 
-void PrintAddPipe(Pipe& new_pipe)
+
+void PrintAddPipe(const Pipe& new_pipe)
 {
 	cout << endl << "Info about your pipe..." << endl;
 	if (new_pipe.pipe_name == "None")
@@ -113,11 +122,11 @@ void PrintAddPipe(Pipe& new_pipe)
 	else
 	{
 		cout << "Name: " << new_pipe.pipe_name << "\tLength: " << new_pipe.pipe_length
-			<< "\tDiameter: " << new_pipe.pipe_diameter << "\tRepair: " << new_pipe.pipe_repair << endl;
+			<< "\tDiameter: " << new_pipe.pipe_diameter << "\tRepair: " << (new_pipe.pipe_repair ? "In repair" : "Not in repair") << endl;
 	}
 }
 
-void RepairPipe(Pipe& new_pipe)
+Pipe RepairPipe(Pipe new_pipe)
 {
 	if (new_pipe.pipe_name == "None")
 	{
@@ -126,10 +135,11 @@ void RepairPipe(Pipe& new_pipe)
 	else
 	{
 		new_pipe.pipe_repair = !new_pipe.pipe_repair;
-		cout << endl << "You have changed repair status!";
-		PrintAddPipe(new_pipe);
+		cout << endl << "You have changed the repair status!";
 	}
+	return new_pipe;
 }
+
 
 Station AddStation()
 {
@@ -139,21 +149,22 @@ Station AddStation()
 	cin.ignore();
 	getline(cin, new_station.station_name);
 	cout << "Enter the number of workshops: ";
-	check_int(new_station.station_workshops);
+	new_station.station_workshops = check_int();
 	cout << "Enter the number of active workshops: ";
-	check_int(new_station.station_act_workshops);
+	new_station.station_act_workshops = check_int();
 	while (new_station.station_act_workshops > new_station.station_workshops)
 	{
 		cout << "The number of active workshops cannot be greater than those available!\n";
 		cout << "Enter the number of active workshops: ";
-		check_int(new_station.station_act_workshops);
+		new_station.station_act_workshops = check_int();
 	}
 	cout << "Enter the station efficiency indicator (from 0 to 1 with tenths): ";
-	check2_double(new_station.station_efficiency);
+	new_station.station_efficiency = check2_double();
 	return new_station;
 }
 
-void PrintAddStation(Station& new_station)
+
+void PrintAddStation(const Station& new_station)
 {
 	cout << endl << "Info about your CS..." << endl;
 	if (new_station.station_name == "None")
@@ -167,8 +178,7 @@ void PrintAddStation(Station& new_station)
 			<< new_station.station_efficiency << endl;
 	}
 }
-
-void EditStation(Station& new_station)
+Station EditStation(Station new_station)
 {
 	if (new_station.station_name == "None")
 	{
@@ -177,160 +187,177 @@ void EditStation(Station& new_station)
 	else
 	{
 		cout << "Enter the number of active workshops: ";
-		check_int(new_station.station_act_workshops);
+		new_station.station_act_workshops = check_int();
 		while (new_station.station_act_workshops > new_station.station_workshops)
 		{
 			cout << "The number of active workshops cannot be greater than those available!\n";
 			cout << "Enter the number of active workshops: ";
-			check_int(new_station.station_act_workshops);
+			new_station.station_act_workshops = check_int();
 		}
 	}
-	PrintAddStation(new_station);
+	return new_station;
 }
 
-void FileRecord(Pipe& pipe_data, Station& station_data)
+
+void SavePipeToFile(const Pipe& pipe_data)
 {
-	ofstream fout("info.txt");
-	if (pipe_data.pipe_name == "None")
+	ofstream fout("info.txt", ios::app);  
+	if (pipe_data.pipe_name != "None")
+	{
+		fout << "Info about your pipe...\n";
+		fout << pipe_data.pipe_name << endl;
+		fout << pipe_data.pipe_length << endl;
+		fout << pipe_data.pipe_diameter << endl;
+		fout << pipe_data.pipe_repair << endl;
+		cout << "Info about the pipe is written to a file!\n";
+	}
+	else
 	{
 		cout << "Nothing to record about pipe!\n";
-	}
-	else
-	{
-		cout << "Info about the pipe is written to a file!\n";
-		if (fout)
-		{
-			fout << "Info about your pipe...\n";
-			fout << pipe_data.pipe_name << endl;
-			fout << pipe_data.pipe_length << endl;
-			fout << pipe_data.pipe_diameter << endl;
-			fout << pipe_data.pipe_repair << endl;
-		}
-	}
-	if (station_data.station_name == "None")
-	{
-		cout << "Nothing to record about station!\n";
-	}
-	else
-	{
-		cout << "Info about the station is written to a file!\n";
-		if (fout)
-		{
-			fout << "Info about your station...\n";
-			fout << station_data.station_name << endl;
-			fout << station_data.station_workshops << endl;
-			fout << station_data.station_act_workshops << endl;
-			fout << station_data.station_efficiency << endl;
-		}
 	}
 	fout.close();
 }
 
-void FileOutput(Pipe& pipe_data, Station& station_data)
+
+void SaveStationToFile(const Station& station_data)
 {
-	ifstream fin("info.txt");
-	if (fin)
+	ofstream fout("info.txt", ios::app);  
+	if (station_data.station_name != "None")
 	{
-		vector <string> lines;
-		string line;
-
-		while (getline(fin, line))
-		{
-			lines.push_back(line);
-		}
-
-		int totalLines = lines.size();
-		if (totalLines > 0)
-		{
-			cout << "\nThe last five lines from the file are:" << endl;
-			for (int i = max(0, totalLines - 5); i < totalLines; ++i)
-			{
-				cout << lines[i] << endl;
-			}
-		}
-		else
-		{
-			cout << "\nThe file is empty!" << endl;
-		}
-
-		fin.close();
+		fout << "Info about your station...\n";
+		fout << station_data.station_name << endl;
+		fout << station_data.station_workshops << endl;
+		fout << station_data.station_act_workshops << endl;
+		fout << station_data.station_efficiency << endl;
+		cout << "Info about the station is written to a file!\n";
 	}
 	else
 	{
-		cout << "\nError opening the file!" << endl;
+		cout << "Nothing to record about station!\n";
 	}
+	fout.close();
+}
+
+void FileOutput()
+{
+	ifstream fin("info.txt");
+	if (!fin)
+	{
+		cout << "Error: File not found!" << endl;
+		return;
+	}
+
+	string line;
+	while (getline(fin, line))
+	{
+		if (line == "Info about your pipe...")
+		{
+			cout << "\nThe pipe data is obtained from the file!" << endl;
+
+			string pipe_name;
+			double pipe_length;
+			double pipe_diameter;
+			bool pipe_repair;
+
+			getline(fin, pipe_name);
+			cout << "Name of the pipe: " << pipe_name << endl;
+
+			fin >> pipe_length;
+			cout << "Length of the pipe: " << pipe_length << endl;
+
+			fin >> pipe_diameter;
+			cout << "Diameter of the pipe: " << pipe_diameter << endl;
+
+			fin >> pipe_repair;
+			cout << "Repair status of the pipe: " << (pipe_repair ? "In repair" : "Not in repair") << endl;
+
+			fin.ignore(numeric_limits<streamsize>::max(), '\n');  
+		}
+		else if (line == "Info about your station...")
+		{
+			cout << "\nThe station data is obtained from the file!" << endl;
+
+			string station_name;
+			int station_workshops;
+			int station_act_workshops;
+			double station_efficiency;
+
+			getline(fin, station_name);
+			cout << "Name of the station: " << station_name << endl;
+
+			fin >> station_workshops;
+			cout << "Number of workshops: " << station_workshops << endl;
+
+			fin >> station_act_workshops;
+			cout << "Number of active workshops: " << station_act_workshops << endl;
+
+			fin >> station_efficiency;
+			cout << "Station efficiency indicator: " << station_efficiency << endl;
+
+			fin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+		}
+	}
+
+	fin.close();
 }
 
 
 int main()
 {
+	
+	ofstream fout("info.txt", ios::trunc);
+	fout.close(); 
+
 	Pipe pipe0;
 	Station station0;
 	int num = 0;
-	while (true) {
+
+	while (true)
+	{
 		cout << endl << "Menu:" << endl;
 		cout << "1) Add pipe" << endl;
-		cout << "2) Add a CS" << endl;
+		cout << "2) Add a station (CS)" << endl;
 		cout << "3) View all objects" << endl;
 		cout << "4) Edit pipe" << endl;
-		cout << "5) Edit a CS" << endl;
-		cout << "6) Save" << endl;
-		cout << "7) Download" << endl;
+		cout << "5) Edit a station" << endl;
+		cout << "6) Save pipe to file" << endl;
+		cout << "7) Save station to file" << endl;
+		cout << "8) Load and display all data from file" << endl;
 		cout << "0) Exit" << endl;
 		cout << endl << "Please, enter the command number: ";
-		check_input(num);
-	
+		num = check_input();
+
 		switch (num)
 		{
 		case 1:
-		{
-			pipe0 = AddPipe();
-			PrintAddPipe(pipe0);
+			pipe0 = AddPipe();  
 			break;
-		}
 		case 2:
-		{
-			station0 = AddStation();
-			PrintAddStation(station0);
+			station0 = AddStation();  
 			break;
-		}
 		case 3:
-		{
-			PrintAddPipe(pipe0);
-			PrintAddStation(station0);
+			PrintAddPipe(pipe0);  
+			PrintAddStation(station0);  
 			break;
-		}
 		case 4:
-		{
-			RepairPipe(pipe0);
+			pipe0 = RepairPipe(pipe0);  
 			break;
-		}
 		case 5:
-		{
-			EditStation(station0);
+			station0 = EditStation(station0); 
 			break;
-		}
 		case 6:
-		{
-			FileRecord(pipe0, station0);
+			SavePipeToFile(pipe0);  
 			break;
-		}
 		case 7:
-		{
-			FileOutput(pipe0, station0);
+			SaveStationToFile(station0);  
 			break;
-		}
+		case 8:
+			FileOutput();  
+			break;
 		case 0:
-		{
-			return false;
-			break;
-		}
+			return 0;
 		default:
-		{
-			cout << endl << "There is no such command, please, try again" << endl;
-			break;
-		}
+			cout << "Invalid option, try again!" << endl;
 		}
 	}
-	return 0;
 }

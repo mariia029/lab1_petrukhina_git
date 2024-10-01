@@ -1,10 +1,10 @@
 Info about your pipe...
-nor nikel 1
-2
+???
 3
+2
 1
 Info about your station...
-tatneft
+?
 4
 3
 1
