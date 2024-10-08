@@ -90,7 +90,7 @@ int menu() {
     }
 }
 
-void menu_new_Pipe(Pipe& P) {
+void new_pipe(Pipe& P) {
     cout << "Enter pipe name: ";
     getline(cin, P.Name);
     cout << "Enter pipe length in kilometers:  ";
@@ -101,8 +101,7 @@ void menu_new_Pipe(Pipe& P) {
     P.repair = check_int(1, 0);
     cout << "Pipe created: " << endl << "Pipe name: " << P.Name << "; Pipe length: " << P.length << "; Pipe diameter: " << P.diameter << "; Status 'under repair: " << boolalpha << P.repair << endl;
 }
-
-void menu_new_ks(Station& CS) {
+void new_ks(Station& CS) {
     cout << "Enter station name: ";
     getline(cin, CS.Name);
     cout << "Enter number of workshops: ";
@@ -256,31 +255,30 @@ int main() {
     Pipe P;
     Station CS;
     while (true) {
-        int k = menu();
-        if (k == 0) {
+        switch (menu()) {
+        case 1:
+            new_pipe(P);
             break;
-        }
-        else if (k == 1) {
-            menu_new_Pipe(P);
-        }
-        else if (k == 2) {
-            menu_new_ks(CS);
-        }
-        else if (k == 3) {
+        case 2:
+            new_ks(CS);
+            break;
+        case 3:
             view_all(P, CS);
-        }
-        else if (k == 4) {
+            break;
+        case 4:
             edit_Pipe(P);
-        }
-        else if (k == 5) {
+            break;
+        case 5:
             edit_CS(CS);
-        }
-        else if (k == 6) {
+            break;
+        case 6:
             save(P, CS);
-        }
-        else if (k == 7) {
+            break;
+        case 7:
             load(P, CS);
+            break;
+        case 0:
+            return 0;
         }
     }
-    return 0;
 }
