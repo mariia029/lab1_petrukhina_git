@@ -4,24 +4,22 @@
 
 using namespace std;
 
-//структуры
 struct Pipe
 {
-    string Name; //название трубы
-    float length; //километры 
-    int diameter; //миллиметры
-    bool repair; //признак "в ремонте" 
+    string Name; 
+    float length; 
+    int diameter; 
+    bool repair; 
 };
 
 struct Station
 {
-    string Name; //название КС
-    int workshops; //Кол-во цехов
-    int workshopsinwork; //Кол-во цехов в работе
-    int effectiveness; //Коэфф. эффективности
+    string Name; 
+    int workshops; 
+    int workshopsinwork; 
+    int effectiveness;
 };
 
-//Функции
 int check_int(int max, int low) {
     int z;
     cin >> z;
@@ -121,63 +119,61 @@ void show_cs(const Station& CS) {
 }
 
 void view_all(const Pipe& P, const Station& CS) {
-    if (CS.workshops > 0 && P.diameter > 0) {
+    bool pipe_exists = P.diameter > 0;
+    bool cs_exists = CS.workshops > 0;
+
+    if (pipe_exists) {
         show_Pipe(P);
-        show_cs(CS);
-    }
-    else if (CS.workshops < 1 && P.diameter > 0) {
-        show_Pipe(P);
-        cout << "No station added yet!" << endl;
-    }
-    else if (CS.workshops > 0 && P.diameter < 1) {
-        show_cs(CS);
-        cout << "No pipe added yet!" << endl;
     }
     else {
-        cout << "No objects have been added yet." << endl;
+        cout << "Pipe has not been added yet!" << endl;
+    }
+    if (cs_exists) {
+        show_cs(CS);
+    }
+    else {
+        cout << "CS has not been added yet!" << endl;
     }
 }
+
 
 void edit_Pipe(Pipe& P) {
     int m = 0;
-    if (P.diameter > 0) {
-        while (true) {
-            cout << "Select the parameter you want to edit: " << endl << "1) The status is 'under repair'" << endl << "0) Exit to menu" << endl << "Command number: ";
-            m = check_int(1, 0);
-            if (m == 0) {
-                break;
-            }
-            else if (m == 1) {
-                cout << "Old pipe status: under repair " << boolalpha << P.repair << endl;
-                cout << "Select the new pipe status: " << endl << "0)Not in repair" << endl << "1)Under repair" << endl << "Enter the command number: ";
-                P.repair = check_int(1, 0);
-            }
-        }
+    if (P.diameter > 0)
+    {
+        cout << "Select the parameter you want to edit: " << endl << "1) 'Under repair' status" << endl << "0) Exit to menu" << endl << "Command number: ";
+        m = check_int(1, 0);
+        if (m == 0)
+            return;
+        cout << "Old pipe status: under repair " << boolalpha << P.repair << endl;
+        cout << "Select the new pipe status: " << endl << "0) Not under repair" << endl << "1) Under repair" << endl << "Enter the command number: ";
+        P.repair = check_int(1, 0);
     }
     else {
-        cout << "You have not added the pipe yet and cannot view its parameters. Please set up the pipe in the menu (item 1)" << endl;
+        cout << "You haven't added a pipe yet and cannot view its parameters. Please configure the pipe in the menu (option 1)" << endl;
     }
 }
-
 void edit_CS(Station& CS) {
     int m = 0;
-    if (CS.workshops > 0) {
-        while (true) {
-            cout << "Select the parameter you want to edit: " << endl << "1) Number of workshops in operation" << endl << "0) Exit to the menu" << endl << "Comand number: ";
-            m = check_int(1, 0);
-            if (m == 0) {
-                break;
-            }
-            else if (m == 1) {
-                cout << "Total number of workshops: " << CS.workshops << "; The old number of workshops in operation: " << CS.workshopsinwork << endl;
-                cout << "Enter a new number of workshops in operation: ";
-                CS.workshopsinwork = check_int(CS.workshops, 0);
-            }
-        }
+    if (CS.workshops > 0)
+    {
+        cout << "Select the parameter you want to edit: " << endl << "1) Number of workshops in operation" << endl << "0) Exit to menu" << endl << "Command number: ";
+        m = check_int(1, 0);
+        if (m == 0)
+            return;
+        cout << "Total number of workshops: " << CS.workshops << "; Old number of workshops in operation: " << CS.workshopsinwork << endl;
+        cout << "Enter the new number of workshops in operation: ";
+        CS.workshopsinwork = check_int(CS.workshops, 0);
     }
     else {
-        cout << "You have not added the CS yet and cannot view its parameters. Please configure the CS in the menu (item 2)" << endl;
+        cout << "You haven't added a CS yet and cannot view its parameters. Please configure the CS in the menu (option 2)" << endl;
     }
+}
+void SavePipe(const Pipe& P, ofstream& out) {
+
+    out << "data Pipe:" << endl;
+    out << P.Name << endl;
+    out << P.length << " " << P.diameter << " " << P.repair << endl;
 }
 void SavePipe(const Pipe& P, ofstream& out)
 {
@@ -209,21 +205,21 @@ void loadCS(Station& CS, ifstream& in) {
 void save(const Pipe& P, const Station& CS) {
     ofstream out;
     out.open("info.txt");
-    if (out.is_open())
-    {
+    if (out.is_open()) {
         if (P.Name.empty() && CS.Name.empty()) {
-            cout << "You don't have any data to record!" << endl;
+            cout << "You have no data to save!" << endl;
             return;
         }
-        if (!P.Name.empty() && CS.Name.empty()) {
+
+        if (!P.Name.empty()) {
             SavePipe(P, out);
-            cout << "The data about the pipe is recorded!" << endl;
-        }
-        if (!CS.Name.empty() && P.Name.empty()) {
-            SaveCS(CS, out);
-            cout << "The CS data is recorded!" << endl;
         }
 
+        if (!CS.Name.empty()) {
+            SaveCS(CS, out);
+        }
+
+        cout << "data saved!" << endl; // Сообщение о сохранении выводится один раз
     }
     out.close();
 }
