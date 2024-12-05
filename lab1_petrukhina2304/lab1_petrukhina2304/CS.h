@@ -1,5 +1,4 @@
 #pragma once
-#pragma once
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -41,4 +40,3 @@ public:
 		return (double)ws_work / ws * 100;
 	}
 };
-#pragma once

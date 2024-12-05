@@ -2,7 +2,6 @@
 #include "help.h"
 #include "pipe.h"
 #include "CS.h"
-#include "main.h"
 using namespace std;
 using namespace chrono;
 
