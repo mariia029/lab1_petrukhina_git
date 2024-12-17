@@ -16,33 +16,63 @@
     <Filter Include="LAB1">
       <UniqueIdentifier>{557cdb9c-7cb1-4d89-a645-17dca58e9612}</UniqueIdentifier>
     </Filter>
+    <Filter Include="LAB3">
+      <UniqueIdentifier>{4f1ec72c-fe21-497f-ba93-81637517bbe3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="LAB2">
+      <UniqueIdentifier>{f0e23f28-70c4-4ca8-ae9d-f2afd4d0954d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="pipe.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CS.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="help.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\LAB1.cpp">
       <Filter>LAB1</Filter>
     </ClCompile>
+    <ClCompile Include="CS.cpp">
+      <Filter>LAB2</Filter>
+    </ClCompile>
+    <ClCompile Include="help.cpp">
+      <Filter>LAB2</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>LAB2</Filter>
+    </ClCompile>
+    <ClCompile Include="pipe.cpp">
+      <Filter>LAB2</Filter>
+    </ClCompile>
+    <ClCompile Include="pipe3.cpp">
+      <Filter>LAB3</Filter>
+    </ClCompile>
+    <ClCompile Include="menu.cpp">
+      <Filter>LAB3</Filter>
+    </ClCompile>
+    <ClCompile Include="main3.cpp">
+      <Filter>LAB3</Filter>
+    </ClCompile>
+    <ClCompile Include="CS3.cpp">
+      <Filter>LAB3</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="help.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CS.h">
-      <Filter>Header Files</Filter>
+      <Filter>LAB2</Filter>
+    </ClInclude>
+    <ClInclude Include="help.h">
+      <Filter>LAB2</Filter>
     </ClInclude>
     <ClInclude Include="pipe.h">
-      <Filter>Header Files</Filter>
+      <Filter>LAB2</Filter>
+    </ClInclude>
+    <ClInclude Include="utilities.h">
+      <Filter>LAB3</Filter>
+    </ClInclude>
+    <ClInclude Include="pipe3.h">
+      <Filter>LAB3</Filter>
+    </ClInclude>
+    <ClInclude Include="CS3.h">
+      <Filter>LAB3</Filter>
+    </ClInclude>
+    <ClInclude Include="menu.h">
+      <Filter>LAB3</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
