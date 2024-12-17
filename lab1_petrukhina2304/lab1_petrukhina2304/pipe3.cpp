@@ -1,8 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "../header_files/pipe.h"
-#include "../header_files/utils.h"
+#include "pipe3.h"
+#include "utilities.h"
 
 using namespace std;
 
@@ -94,7 +94,7 @@ int Pipe::get_diameter() const {
 }
 
 
-bool Pipe::InUsing() const {
+bool Pipe::InUse() const {
     return (this->links[0]) || (this->links[1]);
 }
 

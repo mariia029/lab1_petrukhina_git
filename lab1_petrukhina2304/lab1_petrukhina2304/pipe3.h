@@ -29,7 +29,7 @@ public:
     bool get_IsWorking() const;
     int get_diameter() const;
 
-    bool InUsing() const;
+    bool InUse() const;
     std::vector<int> get_links() const;
     bool set_links(const int& out, const int& in);
 

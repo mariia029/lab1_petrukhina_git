@@ -2,19 +2,19 @@
 #include <math.h>
 #include <fstream>
 #include <sstream>
-#include "../header_files/compressor_station.h"
-#include "../header_files/utils.h"
+#include "CS3.h"
+#include "utilities.h"
 
 using namespace std;
 
 
-int CompressorStation::current_csID = 0;
+int CS::current_csID = 0;
 
 
-CompressorStation::CompressorStation() {
+CS::CS() {
     cout << "---add compressor station---\n";
 
-    this->id = ++CompressorStation::current_csID;
+    this->id = ++CS::current_csID;
     cout << "id: " << this->id << endl;
 
     cout << "name: ";
@@ -36,7 +36,7 @@ CompressorStation::CompressorStation() {
 }
 
 
-CompressorStation::CompressorStation(std::ifstream& file) {
+CS::CS(std::ifstream& file) {
     file >> this->id;
     file.ignore(10000, '\n');
     getline(file >> std::ws, this->name);
@@ -49,37 +49,37 @@ CompressorStation::CompressorStation(std::ifstream& file) {
 }
 
 
-int CompressorStation::get_currentId() {
-    return CompressorStation::current_csID;
+int CS::get_currentId() {
+    return CS::current_csID;
 }
 
 
-void CompressorStation::set_currentID(const std::unordered_map<int, CompressorStation>& data) {
-    CompressorStation::current_csID = get_maxKey(data);
+void CS::set_currentID(const std::unordered_map<int, CS>& data) {
+    CS::current_csID = get_maxKey(data);
 }
 
 
-int CompressorStation::get_id() const {
+int CS::get_id() const {
     return this->id;
 }
 
 
-std::string CompressorStation::get_name() const {
+std::string CS::get_name() const {
     return this->name;
 }
 
 
-bool CompressorStation::InUsing() const {
+bool CS::InUse() const {
     return (this->links[0].size()) || (this->links[1].size());
 }
 
 
-std::vector<std::unordered_set<int>> CompressorStation::get_links() const {
+std::vector<std::unordered_set<int>> CS::get_links() const {
     return this->links;
 }
 
 
-void CompressorStation::set_links(std::ifstream& file, const int& pos) {
+void CS::set_links(std::ifstream& file, const int& pos) {
     string line;
     getline(file >> std::ws, line);
     istringstream iss(line);
@@ -91,40 +91,40 @@ void CompressorStation::set_links(std::ifstream& file, const int& pos) {
 }
 
 
-bool CompressorStation::addLink(const int& pos, const int& id) {
+bool CS::addLink(const int& pos, const int& id) {
     this->links[pos].emplace(id);
     return 1;
 }
 
 
-bool CompressorStation::delLink(const int& pos, const int& id) {
+bool CS::delLink(const int& pos, const int& id) {
     this->links[pos].erase(id);
     return 1;
 }
 
 
-void CompressorStation::clear_currentID() {
-    CompressorStation::current_csID = 1;
+void CS::clear_currentID() {
+    CS::current_csID = 1;
 }
 
 
-float CompressorStation::get_workload() const {
+float CS::get_workload() const {
     return this->workload;
 }
 
-ostream& operator << (ostream& os, const CompressorStation& compressor_station) {
-    os << "-----Compressor Station " << compressor_station.get_id() << "-----" << endl
-        << "id: " << compressor_station.get_id() << endl
-        << "name: " << compressor_station.name << endl
-        << "number of workshops: " << compressor_station.number_of_workshops << endl
-        << "workshops in work: " << compressor_station.workshops_in_work << endl
-        << "efficiency: " << PRINT_WORKLOAD(compressor_station.) << endl;
+ostream& operator << (ostream& os, const CS& cs) {
+    os << "-----Compressor Station " << cs.get_id() << "-----" << endl
+        << "id: " << cs.get_id() << endl
+        << "name: " << cs.name << endl
+        << "number of workshops: " << cs.number_of_workshops << endl
+        << "workshops in work: " << cs.workshops_in_work << endl
+        << "efficiency: " << PRINT_WORKLOAD(cs.) << endl;
     os << "links{" << endl;
     os << "   " << "in: ";
-    for (const auto& id : compressor_station.links[0]) os << id << " ";
+    for (const auto& id : cs.links[0]) os << id << " ";
     os << endl;
     os << "   " << "out: ";
-    for (const auto& id : compressor_station.links[1]) os << id << " ";
+    for (const auto& id : cs.links[1]) os << id << " ";
     os << endl;
     os << "}" << endl;
     os << "--------------" << endl;
@@ -133,12 +133,12 @@ ostream& operator << (ostream& os, const CompressorStation& compressor_station) 
 }
 
 
-void CompressorStation::calc_workload() {
+void CS::calc_workload() {
     this->workload = (float)this->workshops_in_work / this->number_of_workshops;
 }
 
 
-void CompressorStation::edit_workshop_status(int choice) {
+void CS::edit_workshop_status(int choice) {
     if (choice == 1) {
         if (this->workshops_in_work > 0) {
             --this->workshops_in_work;
@@ -153,7 +153,7 @@ void CompressorStation::edit_workshop_status(int choice) {
 }
 
 
-void CompressorStation::save(ofstream& file) const {
+void CS::save(ofstream& file) const {
     file << "CS" << endl;
     file << this->id << endl;
     file << this->name << endl;

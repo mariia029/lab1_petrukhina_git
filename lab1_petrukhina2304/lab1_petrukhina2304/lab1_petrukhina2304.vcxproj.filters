@@ -51,6 +51,9 @@
     <ClCompile Include="CS3.cpp">
       <Filter>LAB3</Filter>
     </ClCompile>
+    <ClCompile Include="gtn.cpp">
+      <Filter>LAB3</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CS.h">
@@ -72,6 +75,9 @@
       <Filter>LAB3</Filter>
     </ClInclude>
     <ClInclude Include="menu.h">
+      <Filter>LAB3</Filter>
+    </ClInclude>
+    <ClInclude Include="gtn.h">
       <Filter>LAB3</Filter>
     </ClInclude>
   </ItemGroup>
