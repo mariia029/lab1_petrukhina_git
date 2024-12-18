@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "../header_files/menu.h"
+#include "Z:\Desktop\lab1_petrukhina_git\lab1_petrukhina2304\lab1_petrukhina2304\menu.h"
 
 using namespace std;
 

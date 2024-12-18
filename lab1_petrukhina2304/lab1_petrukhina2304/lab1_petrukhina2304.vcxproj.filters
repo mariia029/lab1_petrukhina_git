@@ -39,18 +39,21 @@
     <ClCompile Include="pipe.cpp">
       <Filter>LAB2</Filter>
     </ClCompile>
-    <ClCompile Include="pipe3.cpp">
-      <Filter>LAB3</Filter>
-    </ClCompile>
     <ClCompile Include="menu.cpp">
       <Filter>LAB3</Filter>
     </ClCompile>
     <ClCompile Include="main3.cpp">
       <Filter>LAB3</Filter>
     </ClCompile>
+<<<<<<< HEAD
+=======
     <ClCompile Include="CS3.cpp">
       <Filter>LAB3</Filter>
     </ClCompile>
+    <ClCompile Include="gtn.cpp">
+      <Filter>LAB3</Filter>
+    </ClCompile>
+>>>>>>> be4b1cb591c7202aa740a7cdc79ada4b16d5dfd9
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CS.h">
@@ -62,16 +65,10 @@
     <ClInclude Include="pipe.h">
       <Filter>LAB2</Filter>
     </ClInclude>
-    <ClInclude Include="utilities.h">
-      <Filter>LAB3</Filter>
-    </ClInclude>
-    <ClInclude Include="pipe3.h">
-      <Filter>LAB3</Filter>
-    </ClInclude>
-    <ClInclude Include="CS3.h">
-      <Filter>LAB3</Filter>
-    </ClInclude>
     <ClInclude Include="menu.h">
+      <Filter>LAB3</Filter>
+    </ClInclude>
+    <ClInclude Include="gtn.h">
       <Filter>LAB3</Filter>
     </ClInclude>
   </ItemGroup>

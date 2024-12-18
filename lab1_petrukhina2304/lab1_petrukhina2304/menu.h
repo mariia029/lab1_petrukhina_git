@@ -1,6 +1,5 @@
 #pragma once
-#pragma once
-#include <GTN.h>
+#include <Z:\Desktop\lab1_petrukhina_git\lab1_petrukhina2304\lab1_petrukhina2304\gtn.h>
 
 
 // main menu

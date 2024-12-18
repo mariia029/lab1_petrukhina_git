@@ -1,7 +1,7 @@
 #include <iostream>
-#include "../header_files/menu.h"
-#include "../header_files/logger.h"
-#include "../header_files/GTN.h"
+#include "menu.h"
+#include "logger.h"
+#include "gtn.h"
 #include <chrono>
 #include <format>
 
@@ -13,11 +13,11 @@ using namespace chrono;
 void print_pipes_menu() {
     cout << endl;
     cout << endl;
-    cout << "-----Menu pipe-----\n";
-    cout << "0 - back\n";
-    cout << "1 - add pipe\n";
-    cout << "2 - select pipes\n";
-    cout << "--------------\n";
+    cout << "Menu pipe\n";
+    cout << "0 - Back\n";
+    cout << "1 - Add pipe\n";
+    cout << "2 - Select pipes\n";
+    cout << "\n";
 }
 
 void pipes_menu(GTNetwork& gtn) {
@@ -46,14 +46,14 @@ void pipes_menu(GTNetwork& gtn) {
 void print_select_pipes_menu() {
     cout << endl;
     cout << endl;
-    cout << "-----Menu select pipe-----\n";
-    cout << "0 - back\n";
-    cout << "1 - see selected pipes\n";
-    cout << "2 - edit selected pipes\n";
-    cout << "3 - select from filter\n";
-    cout << "4 - choose ids from selected\n";
-    cout << "5 - remove from selected\n";
-    cout << "--------------\n";
+    cout << "Menu select pipe\n";
+    cout << "0 Back\n";
+    cout << "1 See selected pipes\n";
+    cout << "2 Edit selected pipes\n";
+    cout << "3 Select from filter\n";
+    cout << "4 Choose ids from selected\n";
+    cout << "5 Remove from selected\n";
+    
 }
 
 void select_pipes_menu(GTNetwork& gtn) {
@@ -91,14 +91,14 @@ void select_pipes_menu(GTNetwork& gtn) {
 void print_filter_pipe() {
     cout << endl;
     cout << endl;
-    cout << "-----Menu filter pipe-----\n";
+    cout << "Menu filter pipe\n";
     cout << "*new selections are added to the old ones*\n";
-    cout << "0 - back\n";
-    cout << "1 - select all pipes\n";
-    cout << "2 - select by id\n";
-    cout << "3 - select by name\n";
-    cout << "4 - select by work status\n";
-    cout << "--------------\n";
+    cout << "0 Back\n";
+    cout << "1 Select all pipes\n";
+    cout << "2 Select by id\n";
+    cout << "3 Select by name\n";
+    cout << "4 Select by work status\n";
+    
 }
 
 void filter_pipe_menu(GTNetwork& gtn) {
@@ -133,11 +133,11 @@ void filter_pipe_menu(GTNetwork& gtn) {
 void print_edit_pipe_menu() {
     cout << endl;
     cout << endl;
-    cout << "-----Menu edit pipe-----\n";
-    cout << "0 - back\n";
-    cout << "1 - change work status for selected pipes\n";
-    cout << "2 - delete selected pipes\n";
-    cout << "--------------\n";
+    cout << "Menu edit pipe\n";
+    cout << "0 Back\n";
+    cout << "1 Change work status for selected pipes\n";
+    cout << "2 Delete selected pipes\n";
+    
 }
 
 void edit_pipes_menu(GTNetwork& gtn)
@@ -169,11 +169,11 @@ void edit_pipes_menu(GTNetwork& gtn)
 void print_CS_menu() {
     cout << endl;
     cout << endl;
-    cout << "-----Menu C Station-----\n";
-    cout << "0 - back\n";
-    cout << "1 - add C Station\n";
-    cout << "2 - select C Station\n";
-    cout << "--------------\n";
+    cout << "Menu C Station\n";
+    cout << "0 Back\n";
+    cout << "1 Add C Station\n";
+    cout << "2 Select C Station\n";
+    
 }
 
 void CS_menu(GTNetwork& gtn) {

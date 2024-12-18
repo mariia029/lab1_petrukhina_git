@@ -2,8 +2,8 @@
 #include <math.h>
 #include <fstream>
 #include <sstream>
-#include "../header_files/compressor_station.h"
-#include "../header_files/utils.h"
+#include "CS3.h"
+#include "utilities.h"
 
 using namespace std;
 

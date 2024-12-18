@@ -1,4 +1,4 @@
-#include "help.h"
+#include "Z:\Desktop\lab1_petrukhina_git\lab1_petrukhina2304\lab1_petrukhina2304\help.h"
 using namespace std;
 
 string input_string(istream& in)

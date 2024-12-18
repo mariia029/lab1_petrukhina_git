@@ -1,8 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include "../header_files/pipe.h"
-#include "../header_files/utils.h"
+#include "pipe3.h"
+#include "utilities.h"
 
 using namespace std;
 

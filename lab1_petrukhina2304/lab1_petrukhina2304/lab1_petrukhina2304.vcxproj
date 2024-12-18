@@ -189,15 +189,20 @@
     <ClCompile Include="CS.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="CS3.cpp" />
-    <ClCompile Include="help.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
+    <ClCompile Include="CS3.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">false</ExcludedFromBuild>
     </ClCompile>
+    <ClCompile Include="filter.cpp" />
+    <ClCompile Include="gtn.cpp" />
+    <ClCompile Include="help.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="logger.cpp" />
     <ClCompile Include="main.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="main3.cpp" />
-    <ClCompile Include="menu.cpp" />
+    <ClCompile Include="menu3.cpp" />
     <ClCompile Include="pipe.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
     </ClCompile>
@@ -208,9 +213,11 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="CS3.h" />
-    <ClInclude Include="help.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
-    </ClInclude>
+    <ClInclude Include="filter.h" />
+    <ClInclude Include="gtn.h" />
+    <ClInclude Include="help.h" />
+    <ClInclude Include="Kan_by_Volkov.h" />
+    <ClInclude Include="logger.h" />
     <ClInclude Include="menu.h" />
     <ClInclude Include="pipe.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">true</ExcludedFromBuild>
